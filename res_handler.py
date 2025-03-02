@@ -209,15 +209,20 @@ class ResponseHandler:
             return
 
         if not self.sim:
-            if any(word in intent_name for word in ("start", "run", "simul")) and any(word in intent_name for word in ("attack", "test", "simul")):
+            if any(word in intent_name for word in ("start", "run")) and any(word in intent_name for word in ("attack", "test", "simul")):
                 self.llm.prompt = f"{SIM_PROMPT} \nLEVEL: {self.level}"
                 self.sim = True
 
-            if any(word in intent_name for word in ("scenario", "scene", "attack")) and any(word in intent_name for word in ("build", "creat")):
+            if any(word in intent_name for word in ("scenario", "simul", "scene", "attack")) and any(word in intent_name for word in ("build", "creat")):
+                query = query.replace("scenario", "simulation")
+                query = query.replace("scene", "simulation")
+                query = query.replace("attack", "simulation")
+                query = query.replace("build", "create")
+
                 attack_type = self.get_text_input("Attack Type: e.g., Phishsing")
                 attack_config = self.get_text_input("Attack Config: e.g., Stealth vs Aggresive")
                 defense_conditions = self.get_text_input("Defense Conditions: e.g., Firewall rules")
-                query = (f"{query} {attack_type} {attack_config} {defense_conditions}")
+                query = (f"{query}. Generate a realistic cybersecurity simulation on {attack_type}, {attack_config}, {defense_conditions}")
 
         else:
             if any(word in intent_name for word in ("set", "said", "chang")) and any(word in intent_name for word in ("level", "difficulti")):

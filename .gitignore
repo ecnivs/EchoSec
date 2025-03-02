@@ -1,8 +1,7 @@
 .env
 __pycache__/
-vosk_model/
-vosk_model/
 *.json
 *.wav
 *.txt
 *_test.py
+vosk-model/

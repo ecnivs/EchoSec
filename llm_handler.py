@@ -24,7 +24,7 @@ class LlmHandler:
         except requests.exceptions.RequestException as e:
             logging.error(f"Failed to unload model: {e}")
 
-    def get_response(self, query, LLM = LLM_MODEL):
+    def get_response(self, query):
         """
         Sends a query to the AI model and streams the response.
 
@@ -36,7 +36,7 @@ class LlmHandler:
         """
         try:
             data = {
-                "model": LLM,
+                "model": self.model,
                 "keep_alive": KEEP_ALIVE,
                 "context": CONTEXT,
                 "prompt": f"{query}",
